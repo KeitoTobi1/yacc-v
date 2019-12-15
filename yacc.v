@@ -215,30 +215,30 @@ fn flex_config(f FlexConfig) string{
 }
 
 // lanuch yacc compile to C.
-fn yacc_compile(file_path string,config YaccConfig) {
+pub fn yacc_compile(file_path string,config YaccConfig) {
 	args := yacc_config(config)
 	yacc := system('bison -y $file_path $args') or system('yacc $file_path $args') or eprintln('Please Install yacc/bison.')
 }
 
 // lanuch bison compile to C.
-fn bison_compile(file string, config BisonConfig) {
+pub fn bison_compile(file string, config BisonConfig) {
 	args := bison_config(config)
     bison := system('bison $file') or eprintln('Bison not installed.')
 }
 
 // lanuch lex compile to C.
-fn lex_compile(file string, config LexConfig) {
+pub fn lex_compile(file string, config LexConfig) {
 	args := lex_config()
 	lex := system('flex -l $file') or system('lex $file') or eprintln('Please Install lex/flex.')
 }
 
 // lanuch flex compile to C.
-fn flex_compile(file string){
+pub fn flex_compile(file string){
 	args := flex_config()
 	flex := system('flex $file') or eprintln('Flex not installed.')
 }
 
 // wrapping yacc.
-pub fn parse(){
+pub fn yyparse(){
 	&C.yyparse()
 }
