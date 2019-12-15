@@ -2,7 +2,7 @@
 
 (C) 2019 keito940
 
-yacc.v is Yacc/Lex(or Bison/Flex) Warpper Libary from V. 
+yacc.v is Yacc/Lex(or Bison/Flex) Wrapper Libary from V. 
 
 yacc.v is Licenced under MIT License. 
 
