@@ -85,16 +85,16 @@ fn yacc_config(y YaccConfig) string{
 fn bison_config(b BisonConfig) string{
 	mut temp := ''
 	if b.file_prefix != ''{
-		temp += '-b $y.fileprefix'
+		temp += '-b $b.fileprefix'
 	}
 	if b.define_name != ''{
-		temp += '-d $y.define_name'
+		temp += '-d $b.define_name'
 	}
 	if b.output_name != ''{
-		temp += '-o $y.output_name'
+		temp += '-o $b.output_name'
 	}
 	if b.prefix_name != ''{
-		temp += '-p $y.prefix_name'
+		temp += '-p $b.prefix_name'
 	}
 	if b.debug_mode {
 		temp += '-t'
@@ -111,7 +111,7 @@ fn bison_config(b BisonConfig) string{
 	return temp
 }
 
-fn lex_config(l LexConfig) string{
+fn lex_config(l LexConfig) ?string{
 	mut temp := ''
 	if l.multibyte_euc {
 		if !l.multibyte_unicode{
@@ -139,7 +139,7 @@ fn lex_config(l LexConfig) string{
 	return temp
 }
 
-fn flex_config(f FlexConfig){
+fn flex_config(f FlexConfig) string{
 	mut temp := ''
 	if f.output_name != ''{
 		temp += '-o $f.output_name'
@@ -213,26 +213,31 @@ fn flex_config(f FlexConfig){
 	return temp
 }
 
+// lanuch yacc compile to C.
 fn yacc_compile(file_path string,config YaccConfig) {
 	args := yacc_config(config)
 	yacc := system('bison -y $file_path $args') or system('yacc $file_path $args') or eprintln('Please Install yacc/bison.')
 }
 
+// lanuch bison compile to C.
 fn bison_compile(file string, config BisonConfig) {
 	args := bison_config(config)
     bison := system('bison $file') or eprintln('Bison not installed.')
 }
 
+// lanuch lex compile to C.
 fn lex_compile(file string, config LexConfig) {
 	args := lex_config()
 	lex := system('flex -l $file') or system('lex $file') or eprintln('Please Install lex/flex.')
 }
 
+// lanuch flex compile to C.
 fn flex_compile(file string){
 	args := flex_config()
 	flex := system('flex $file') or eprintln('Flex not installed.')
 }
 
+// warpping yacc.
 fn load_parse(){
 	&C.yyparse()
 }
