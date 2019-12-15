@@ -1,6 +1,6 @@
 {
     "name": "yacc-v",
-    "version": "1.0",
+    "version": "1.0.1-fixed",
     "author": ["keito940 <keito940@live.jp>"],
     "repo": "https://github.com/keito940/yacc-v"
 }
