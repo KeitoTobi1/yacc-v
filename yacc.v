@@ -1,3 +1,4 @@
+module yacc
 // yacc and bison header include.
 #include "*.tab.h"
 
@@ -237,7 +238,7 @@ fn flex_compile(file string){
 	flex := system('flex $file') or eprintln('Flex not installed.')
 }
 
-// warpping yacc.
-fn load_parse(){
+// wrapping yacc.
+pub fn parse(){
 	&C.yyparse()
 }
