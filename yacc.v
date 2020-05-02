@@ -1,8 +1,9 @@
 module yacc
+import os
 // yacc and bison header include.
 #include "*.tab.h"
 
-fn &C.yyparse()
+fn C.yyparse() int
 
 struct YaccConfig{
 	file_prefix:	''	  // -b
@@ -45,14 +46,14 @@ struct FlexConfig{
 	pascal_mode:			false // -i
 	report:					false // -v 
 	intractive:				false // -I
-	line_error_remove		false // -L
+	line_error_remove:		false // -L
 	fast_table:				false // -F
 	no_warning:				false // -w
 	meta_equal_class:		false // -Cm
 	unicode_mode:			false // -Ca
 	read_call:				false // -Cr
 	equal_class:			false // -Ce
-	table_archive_only		false // -C
+	table_archive_only:		false // -C
 	trace_mode:				false // -T
 	input_8bit:				false // -8
 }
@@ -217,25 +218,43 @@ fn flex_config(f FlexConfig) string{
 // lanuch yacc compile to C.
 pub fn yacc_compile(file_path string,config YaccConfig) {
 	args := yacc_config(config)
-	yacc := system('bison -y $file_path $args') or system('yacc $file_path $args') or eprintln('Please Install yacc/bison.')
+	bison := os.system('bison -y $file_path $args')
+	yacc := if bison == -1 {
+		system('yacc $file_path $args') 
+	} else {
+		0	
+	}
+
+	if yacc == -1 {
+		eprintln('Please Install yacc/bison.')
+	}
 }
 
 // lanuch bison compile to C.
 pub fn bison_compile(file string, config BisonConfig) {
 	args := bison_config(config)
-    bison := system('bison $file') or eprintln('Bison not installed.')
+    bison := os.system('bison $file $args')
+	if bison == -1 {
+		eprintln('Please Install bison')
+	}
 }
 
 // lanuch lex compile to C.
 pub fn lex_compile(file string, config LexConfig) {
-	args := lex_config()
-	lex := system('flex -l $file') or system('lex $file') or eprintln('Please Install lex/flex.')
+	args := lex_config(config)
+	lex := os.system('lex $file $args')
+	if lex == -1 {
+		eprintln('Please Install lex')
+	}
 }
 
 // lanuch flex compile to C.
 pub fn flex_compile(file string){
 	args := flex_config()
-	flex := system('flex $file') or eprintln('Flex not installed.')
+	flex := os.system('flex $file') 
+	if flex == -1 {
+		eprintln('Please Install flex')
+	}
 }
 
 // wrapping yacc.
