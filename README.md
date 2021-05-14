@@ -1,6 +1,6 @@
 # yacc.v
 
-(C) 2019 keito940
+(C) 2019-2021 KeitoTobi1
 
 yacc.v is Yacc/Lex(or Bison/Flex) Wrapper Libary from V. 
 

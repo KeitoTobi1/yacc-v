@@ -5,7 +5,7 @@ import os
 
 fn C.yyparse() int
 
-struct YaccConfig{
+struct YaccConfig {
 	file_prefix:	''	  // -b
 	define_name:	''	  // -d
 	prefix_name:	''	  // -p
